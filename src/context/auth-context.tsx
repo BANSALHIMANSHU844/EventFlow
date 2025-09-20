@@ -1,11 +1,8 @@
 
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import type { User } from 'firebase/auth';
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
-import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
   user: User | null;
@@ -14,46 +11,55 @@ interface AuthContextType {
   signOutUser: () => Promise<void>;
 }
 
+// Create a mock user
+const mockUser = {
+  uid: 'mock-user-123',
+  displayName: 'Local Developer',
+  email: 'dev@example.com',
+  photoURL: `https://i.pravatar.cc/150?u=mock-user-123`,
+  // Add other user properties your app might need
+  providerId: 'password',
+  emailVerified: true,
+  isAnonymous: false,
+  metadata: {},
+  providerData: [],
+  tenantId: null,
+  delete: async () => {},
+  getIdToken: async () => 'mock-token',
+  getIdTokenResult: async () => ({
+    token: 'mock-token',
+    expirationTime: '',
+    authTime: '',
+    issuedAtTime: '',
+    signInProvider: null,
+    signInSecondFactor: null,
+    claims: {},
+  }),
+  reload: async () => {},
+  toJSON: () => ({}),
+} as unknown as User;
+
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [loading, setLoading] = useState(false); // Set to false as we are not fetching anything async
 
   const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
-      toast({
-        variant: 'destructive',
-        title: 'Sign-in Failed',
-        description: 'Could not sign in with Google. Please try again.',
-      });
-    }
+    // Simulate a successful sign-in by setting the mock user
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+    setUser(mockUser);
+    setLoading(false);
   };
 
   const signOutUser = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error signing out", error);
-      toast({
-        variant: 'destructive',
-        title: 'Sign-out Failed',
-        description: 'Could not sign out. Please try again.',
-      });
-    }
+    // Simulate a sign-out
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setUser(null);
+    setLoading(false);
   };
 
   const value = { user, loading, signInWithGoogle, signOutUser };

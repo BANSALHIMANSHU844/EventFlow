@@ -22,6 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Sparkles, Share2, Download, Copy } from 'lucide-react';
 import { doc, setDoc } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
+import { useAuth } from '@/context/auth-context';
 
 function generateShortCode(length = 7) {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -39,6 +40,7 @@ export default function CreatorStudio() {
   const [shortUrl, setShortUrl] = React.useState('');
   const posterCanvasRef = React.useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const form = useForm<EventData>({
     resolver: zodResolver(eventSchema),
@@ -59,10 +61,10 @@ export default function CreatorStudio() {
     
     try {
       const eventCode = generateShortCode();
-      const eventId = `local-${Date.now()}`;
+      const eventId = `event-${Date.now()}`;
       const eventData = {
         ...data,
-        createdBy: 'local-user',
+        createdBy: user?.uid || 'anonymous',
         eventCode: eventCode,
         createdAt: new Date().toISOString(),
         dateTime: data.dateTime.toISOString(),
