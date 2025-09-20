@@ -62,6 +62,13 @@ const howItWorksSteps = [
 
 const AuthButton = ({ children, ...props }: React.ComponentProps<typeof Button>) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { signInWithGoogle } = useAuth();
+
+  const handleSignIn = async () => {
+    await signInWithGoogle();
+    setIsOpen(false);
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -71,10 +78,12 @@ const AuthButton = ({ children, ...props }: React.ComponentProps<typeof Button>)
         <DialogHeader>
           <DialogTitle>Welcome to EventFlow</DialogTitle>
           <DialogDescription>
-            Sign in to create and manage your events.
+            Click below to start creating your event.
           </DialogDescription>
         </DialogHeader>
-        <AuthForm onSignIn={() => setIsOpen(false)}/>
+        <div className="py-4">
+            <Button onClick={handleSignIn} className="w-full">Get Started</Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -98,18 +107,6 @@ export default function LandingPage() {
                         Get Started for Free
                     </AuthButton>
                 </div>
-            </div>
-            <div className="mt-16 relative">
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary/20 w-1/2 h-1/2 rounded-full blur-3xl -z-10"></div>
-                <Image
-                    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1200&auto=format&fit=crop"
-                    alt="A vibrant local event, showcasing community and fun."
-                    width={1200}
-                    height={675}
-                    className="rounded-lg shadow-2xl mx-auto border"
-                    data-ai-hint="local event"
-                    priority
-                />
             </div>
         </section>
         
