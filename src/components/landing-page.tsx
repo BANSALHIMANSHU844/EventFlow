@@ -102,12 +102,12 @@ export default function LandingPage() {
             <div className="mt-16 relative">
                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary/20 w-1/2 h-1/2 rounded-full blur-3xl -z-10"></div>
                 <Image
-                    src="https://images.unsplash.com/photo-1543085243-69873a4352b3?q=80&w=1200&auto=format&fit=crop"
-                    alt="A close-up of a calendar with a date circled, representing event planning."
+                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=1200&auto=format&fit=crop"
+                    alt="A flat lay of a calendar with dates circled, representing event planning."
                     width={1200}
                     height={675}
                     className="rounded-lg shadow-2xl mx-auto border"
-                    data-ai-hint="calendar date"
+                    data-ai-hint="calendar planning"
                     priority
                 />
             </div>
