@@ -102,12 +102,12 @@ export default function LandingPage() {
             <div className="mt-16 relative">
                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary/20 w-1/2 h-1/2 rounded-full blur-3xl -z-10"></div>
                 <Image
-                    src="https://picsum.photos/seed/digital-event/1200/675"
+                    src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?q=80&w=1200&auto=format&fit=crop"
                     alt="A person happily managing their schedule on a laptop, showcasing the ease of using EventFlow."
                     width={1200}
                     height={675}
                     className="rounded-lg shadow-2xl mx-auto border"
-                    data-ai-hint="digital event"
+                    data-ai-hint="planning schedule"
                     priority
                 />
             </div>
