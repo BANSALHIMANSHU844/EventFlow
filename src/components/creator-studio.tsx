@@ -20,7 +20,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Sparkles, Share2, Download, Copy } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
 import { doc, setDoc } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
 
@@ -34,7 +33,6 @@ function generateShortCode(length = 7) {
 }
 
 export default function CreatorStudio() {
-  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isShareModalOpen, setShareModalOpen] = React.useState(false);
   const [posterDataUrl, setPosterDataUrl] = React.useState('');
@@ -57,22 +55,14 @@ export default function CreatorStudio() {
   const watchedData = form.watch();
 
   const handleCreateEvent = async (data: EventData) => {
-    if (!user) {
-        toast({
-            variant: 'destructive',
-            title: 'Not Authenticated',
-            description: 'You must be logged in to create an event.',
-        });
-        return;
-    }
     setIsSubmitting(true);
     
     try {
       const eventCode = generateShortCode();
-      const eventId = `${user.uid}-${Date.now()}`;
+      const eventId = `local-${Date.now()}`;
       const eventData = {
         ...data,
-        createdBy: user.uid,
+        createdBy: 'local-user',
         eventCode: eventCode,
         createdAt: new Date().toISOString(),
         dateTime: data.dateTime.toISOString(),
